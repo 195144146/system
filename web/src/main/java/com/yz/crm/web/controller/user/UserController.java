@@ -22,8 +22,15 @@ public class UserController {
     public String login(Map<String,Object> param){
         List list = new ArrayList();
         User user = new User();
+        user.setPassWord("fdasfads");
         list.add(user);
         List<User> rtl = userService.saveUser(list);
+        return "index";
+    }
+
+    @RequestMapping("/select")
+    public String selectUser(){
+        List<User> rtl = userService.selectUser(new User());
         return "index";
     }
 

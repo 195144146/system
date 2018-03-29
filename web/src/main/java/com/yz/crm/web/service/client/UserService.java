@@ -13,4 +13,7 @@ public interface UserService {
 
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     List<User> saveUser(@RequestBody List<User> requestBody);
+
+    @RequestMapping(value = "/select",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    List<User> selectUser(@RequestBody User param);
 }

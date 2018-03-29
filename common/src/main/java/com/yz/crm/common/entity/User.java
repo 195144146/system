@@ -6,6 +6,9 @@ import java.io.Serializable;
  * @author 虞嘉俊 195144146@qq.com
  */
 public class User implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     public Long getId() {
         return id;
     }
