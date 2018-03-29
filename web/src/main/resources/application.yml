@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+
+eureka:
+#  instance:
+#    non-secure-port: ${service.port:8080}
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+
+logging:
+  file: /home/yujiajun/yzcrmsystem/log.log
+  level:
+    org.springframework.web: debug
+
