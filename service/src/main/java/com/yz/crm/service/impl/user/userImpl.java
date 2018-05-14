@@ -1,12 +1,10 @@
 package com.yz.crm.service.impl.user;
 
-import com.yz.crm.common.entity.User;
+import com.yz.crm.common.entity.user.User;
 import com.yz.crm.service.mapper.UserMapper;
 import com.yz.crm.service.service.user.IUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("userImpl")

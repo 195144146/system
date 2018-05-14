@@ -1,9 +1,69 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+
+    <script type="text/javascript" src="/js/vue.js"></script>
+    <script type="text/javascript" src="/js/vue-resource.js"></script>
 
 
+    <link href="css/menu/common.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-static
+<div id="menu" class="menu">
+    <ul>
+        <li>
+            <div v-for="">
+                <div class="item">
+                    <div class="menuico"></div>
+                    <div class="menuName">一级菜单</div>
+                </div>
+                <ul>
+                    <li>
+                        <div class="item">
+                            <div class="menuico"></div>
+                            <div class="menuName">二级菜单</div>
+                        </div>
+                        <ul>
+                            <li>
+                                <div class="item">
+                                    <div class="menuico"></div>
+                                    <div class="menuName">三级菜单</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="item">
+                    <div class="menuico"></div>
+                    <div class="menuName">一级菜单</div>
+                </div>
+                <ul>
+                    <li>
+                        <div class="item">
+                            <div class="menuico"></div>
+                            <div class="menuName">二级菜单</div>
+                        </div>
+                        <ul>
+                            <li>
+                                <div class="item">
+                                    <div class="menuico"></div>
+                                    <div class="menuName">三级菜单</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+
+    </ul>
+
+ </div>
 </body>
+
 </html>

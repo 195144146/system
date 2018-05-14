@@ -2,6 +2,9 @@ server:
   port: 8080
   tomcat:
     uri-encoding: UTF-8
+  servlet:
+    context-path: /api
+
 
 eureka:
 #  instance:
@@ -14,4 +17,5 @@ logging:
   file: /home/yujiajun/yzcrmsystem/log.log
   level:
     org.springframework.web: debug
+    org.springframework.security: debug
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.crm.service.mapper.system.DataDictionaryMapper">
+
+    <select id="selectDataDictionaryList" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode" resultType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
+      SELECT
+        id,
+        category,
+        categoryDesc,
+        itemCode,
+        itemName,
+        parentId,
+        status
+      FROM item_code
+      WHERE isDeleted = 0
+        <if test="id != null">
+          AND id = #{id}
+        </if>
+        <if test="category != null">
+          AND category LIKE concat('%',#{category},'%')
+        </if>
+        <if test="categoryDesc != null">
+          AND categoryDesc LIKE concat('%',#{categoryDesc},'%')
+        </if>
+        <if test="itemCode != null">
+            AND itemCode LIKE concat('%',#{itemCode},'%')
+        </if>
+        <if test="itemName != null">
+            AND itemName LIKE concat('%',#{itemName},'%')
+        </if>
+    </select>
+
+    <select id="selectDataDictionaryCount" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
+        SELECT count(1)
+        FROM item_code
+        WHERE isDeleted = 0
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="category != null">
+            AND category LIKE concat('%',#{category},'%')
+        </if>
+        <if test="categoryDesc != null">
+            AND categoryDesc LIKE concat('%',#{categoryDesc},'%')
+        </if>
+        <if test="itemCode != null">
+            AND itemCode LIKE concat('%',#{itemCode},'%')
+        </if>
+        <if test="itemName != null">
+            AND itemName LIKE concat('%',#{itemName},'%')
+        </if>
+    </select>
+
+    <insert id="insertDataDictionary" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
+        INSERT INTO item_code
+        (category, categoryDesc, itemCode, itemName, parentId, createdBy, createdOn, modifiedBy, modifiedOn)
+        VALUES
+        (#{category}, #{categoryDesc}, #{itemCode}, #{itemName}, #{parentId}, #{createdBy}, now() , #{createdBy}, now())
+    </insert>
+
+    <update id="updateDataDictionaryById" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
+        UPDATE item_code
+        SET modifiedBy = #{modifiedBy},
+          modifiedOn = now(),
+          category = #{category},
+          categoryDesc = #{categoryDesc},
+          itemCode = #{itemCode},
+          itemName = #{itemName}
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteDataDictionaryById" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
+        UPDATE item_code
+        SET
+          isDeleted = 1,
+          modifiedBy = #{modifiedBy},
+          modifiedOn = now()
+        WHERE id = #{id}
+    </update>
+</mapper>

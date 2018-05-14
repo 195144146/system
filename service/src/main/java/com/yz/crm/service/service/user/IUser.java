@@ -1,8 +1,6 @@
 package com.yz.crm.service.service.user;
 
-
-import com.yz.crm.common.entity.User;
-
+import com.yz.crm.common.entity.user.User;
 import java.util.List;
 
 public interface IUser {

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/vue-resource.js"></script>
+
+</head>
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+<body>
+    <!--模板语法-->
+    <div id="test">
+        <h1>模板语法</h1>
+        使用模板语法在data中无值时会无法渲染显示{{}}内容 如要不显示可以使用v-cloak指令<br>
+        <span>{{message}}</span><br>
+        <span v-pre>v-text="message"</span><br>
+
+        <!--一元运算符-->
+        <p>hello {{world + '!'}}</p>
+        <!--模板字符串-->
+        <p>{{'hello ${world}!'}}</p>
+        <!--三元运算符-->
+        <p>{{ok?'YES':'NO'}}</p>
+        <!--字符串操作-->
+        <p>{{message.split('').reverse().join('')}}</p>
+
+
+
+        <h1>指令</h1>
+
+        <span v-pre>在该v-pre指令中的模板语法不会被渲染{{message}}</span><br>
+        v-text指令显示信息
+        <span v-text="message"></span><br>
+
+        //v-html指令引入html模板
+        PS：引入html信息 v-html容易导致 xss攻击
+        <div v-html="httest"></div>
+
+        //v-once只会渲染一次不更新
+        <span v-once> this will never change:{{message}}</span><br>
+
+        <div v-once>
+            <h2>comment</h2>
+            <p>{{message}}</p>
+        </div>
+
+        <my-component v-once :comment="message"></my-component>
+
+        <button v-on:click="onchangmessage">更新message为虞嘉俊</button>
+
+        //v-if 在之为true时显示否则不显示
+        <p v-if="notok">notok</p>
+        <p v-if="ok">ok</p>
+
+        //多个标签显示并不显示主标签
+        <template v-if="notok">
+            <p>这是我要显示/隐藏的多个标签</p>
+            <p>这是我要显示/隐藏的多个标签</p>
+            <p>这是我要显示/隐藏的多个标签</p>
+        </template>
+
+        //v-else 与v-if 配合使用
+        <p v-if="ok">ok</p>
+        <p v-else>else ok</p>
+
+        //v-else-if
+        运行时的条件不太可能改变，使用v-if比较好
+        <p v-if="ok">if ok</p>
+        <p v-else-if="notok">else if notok</p>
+        <p v-else>all not ok</p>
+
+        //v-show 始终会展示判断条件为false时，自动添加display：none样式
+        v-show 不支持&lt;template&gt; 语法
+        如果要频繁的切换，则使用v-show比较好
+        <h1 v-show="ok">ok</h1>
+        <h1 v-show="notok">v-show notok</h1>
+
+        //v-for 循环
+
+        <ul>
+            <li v-for="i in list">{{i}}</li>
+        </ul>
+        <button v-on:click="onchangelist">this.list[0] = 6</button>
+        <button v-on:click="onchangelistas2">Vue.set(this.list,1,7)</button>
+        <button v-on:click="onchangelistas3">this.list.splice(2,1,8)</button>
+
+        <ul>
+            <table style="border: 1px black">
+                <tbody>
+                    <tr>
+                        <th>index</th>
+                        <th>key</th>
+                        <th>content</th>
+                    </tr>
+                    <template v-for="(obj ,index) of list2" v-once>
+                        <tr>
+                            <td>{{index}}</td>
+                            <!--key value遍历时 地一个值为value 第二个值为key-->
+                            <!--如果有第三个值则为index-->
+                            <template v-for="(value,key) in obj">
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </ul>
+
+        <!--v-for key-->
+        <!--为了提高vue更新dom的性能，你需要为每项提供一个唯一的key属性，-->
+        <!--有相同父元素的子元素必须有独特的key，重复的key属性会造成渲染错误-->
+        <div v-for="item in list3" :key="item.id">
+            {{item.id}}-{{item.text}}
+        </div>
+        <button v-on:click="onchangelist3">list3[1].text=content3</button>
+        <button v-on:click="onchangelist3as2">Vue.set(this.list3,0,{text:"content4"})</button>
+        <br>
+        //v-bind 简写:<br>
+        v-bind也可以绑定样式、三元表达式
+        <a v-bind:href="url" v-bind:target="target">{{url}}</a>
+        <br>
+        //v-model用来绑定表单空间，创建双向数据绑定 v-model不会在ime数据中得到更新，如果想实现请使用input事件 修饰符   <br>
+        v-model.lazy转变为change事件中同步   <br>
+        v-model.number转为number类型   <br>
+        v-model.trim去首尾空格 可以串联   <br>
+
+        //v-on用来监听demo事件   <br>
+        v-on：click 缩写为@   <br>
+        修饰符   <br>
+        @click.stop 阻止单击事件冒泡   <br>
+        @submit.prevent 提交事件不再重载页面   <br>
+        修饰符可以串联   <br>
+        @click.capture添加事件侦听器时使用时间捕获模式   <br>
+        @click.self只当时间在该元素本身（比如不是子元素）触发时触发回调   <br>
+        @click.once点击事件将只会触发一次   <br>
+        @keyup.13键值修饰符 允许 v-on在监听键盘事件时添加关键修饰符 13可以改为别名   <br>
+        见index.js line 30   <br>
+
+
+        //过滤器   <br>
+        过滤器可以在两个地方使用 插值和v-bind 表达式 过滤器应该被添加在javascript表达式的尾部 由“|”分割   <br>
+        过滤器可以串联第一个过滤器的返回值会传递给第二个过滤器以此类推   <br>
+
+        //计算属性   <br>
+        模板内支持表达式是非常便利的，但是他们实际上只能用于简单的运算，如果在模板中放入太多的逻辑则会让模板过重，不便于理解以及日后的维护   <br>
+        {{reversedMessage}}   <br>
+        计算属性会被缓存，在值不发生改变时不会被重新计算<br>
+        {{newdate}}
+        {{methodnewdate()}}
+
+    </div>
+
+
+
+
+
+
+
+    //组件
+    <div id="counter-event-example" class="demo">
+        <p>{{total}}</p>
+        //检测increment事件被触发调用incrementTotal方法
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
+</body>
+<script type="text/javascript" src="../js/vuetestjs/index.js"></script>
+</html>
