@@ -5,6 +5,7 @@ import myframe from '@/components/myframe'
 import list from '@/components/list'
 import buttion from '@/components/buttion'
 import dataDictionary from '@/components/datadictionary/DataDictionary'
+import menu from '@/components/authoritymanagement/menu'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
           path: 'dataDictionary',
           name: 'dataDictionary',
           component: dataDictionary
+        },
+        {
+          path: 'authritymanage/menu',
+          name: 'menu',
+          component: menu
         }
       ]
     }

@@ -30,25 +30,12 @@
         </if>
     </select>
 
-    <select id="selectDataDictionaryCount" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
+    <select id="selectDataDictionaryCount" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode" resultType="Integer">
         SELECT count(1)
         FROM item_code
         WHERE isDeleted = 0
-        <if test="id != null">
-            AND id = #{id}
-        </if>
-        <if test="category != null">
-            AND category LIKE concat('%',#{category},'%')
-        </if>
-        <if test="categoryDesc != null">
-            AND categoryDesc LIKE concat('%',#{categoryDesc},'%')
-        </if>
-        <if test="itemCode != null">
-            AND itemCode LIKE concat('%',#{itemCode},'%')
-        </if>
-        <if test="itemName != null">
-            AND itemName LIKE concat('%',#{itemName},'%')
-        </if>
+        AND category LIKE concat('%',#{category},'%')
+        AND itemCode LIKE concat('%',#{itemCode},'%')
     </select>
 
     <insert id="insertDataDictionary" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">

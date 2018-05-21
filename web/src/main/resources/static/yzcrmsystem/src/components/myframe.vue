@@ -30,11 +30,11 @@
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
-                Item 1
+                权限管理
               </template>
               <MenuItem name="1-1"><router-link to="/main/list">Option 1</router-link></MenuItem>
               <MenuItem name="1-2"><router-link to="/main/buttion">Option 2</router-link></MenuItem>
-              <MenuItem name="1-3">Option 3</MenuItem>
+              <MenuItem name="1-3"><router-link to="/main/authritymanage/menu">菜单管理</router-link></MenuItem></MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">
@@ -60,7 +60,7 @@
             <BreadcrumbItem>Components</BreadcrumbItem>
             <BreadcrumbItem>Layout</BreadcrumbItem>
           </Breadcrumb>
-          <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
+          <Content :style="{padding: '24px', minHeight: '280px', background: '#fff', height: '100%'}">
             <router-view/>
           </Content>
         </Layout>

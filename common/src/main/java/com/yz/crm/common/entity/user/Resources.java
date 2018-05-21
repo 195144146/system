@@ -1,8 +1,8 @@
 package com.yz.crm.common.entity.user;
 
 import com.yz.crm.common.entity.BaseEntity;
-
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: 虞嘉俊 195144146@qq.com
@@ -22,6 +22,24 @@ public class Resources extends BaseEntity {
     private Long modifiedBy;
     private Long modifiedOn;
     private Boolean isDeleted;
+    private Integer sequence;
+    private List<Resources> children;
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
+    }
+
+    public List<Resources> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Resources> children) {
+        this.children = children;
+    }
 
     public Long getId() {
         return id;
