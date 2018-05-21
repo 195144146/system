@@ -47,7 +47,6 @@
             </Row>
             <Row>
               <Col span="24" style="text-align: center; line-height: 40px;">
-                <Button type="primary">保存</Button>
                 <Button type="success">新增</Button>
                 <Button type="warning">修改</Button>
                 <Button type="error">删除</Button>
@@ -76,7 +75,11 @@ export default {
   data () {
     return {
       spinShow: true,
-      menuList: [],
+      menuList: [{
+        id: 0,
+        title: '资源管理',
+        children: []
+      }],
       resourceType: [],
       resource: {
         id: null,
@@ -115,7 +118,7 @@ export default {
         response.body.info.forEach(resources => {
           resources = this.replaceResources(resources)
         })
-        this.menuList = response.body.info
+        this.menuList[0].children = response.body.info
       }, response => {
         console.info(response.body)
       })
