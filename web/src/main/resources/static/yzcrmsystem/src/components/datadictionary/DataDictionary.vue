@@ -11,28 +11,66 @@
         <Row class="row-line40">
           <Col span="24">
             <FormItem prop="category" label="类目代码">
-              <Input type="text" v-model="datadictionaryEntity.category"></Input>
+              <Input type="text" placeholder="请输入" v-model="datadictionaryEntity.category"></Input>
             </FormItem>
           </Col>
         </Row>
         <Row class="row-line40">
           <Col span="24">
             <FormItem prop="categoryDesc" label="类目名称">
-              <Input type="text" v-model="datadictionaryEntity.categoryDesc"></Input>
+              <Input type="text" placeholder="请输入" v-model="datadictionaryEntity.categoryDesc"></Input>
             </FormItem>
           </Col>
         </Row>
         <Row class="row-line40">
           <Col span="24">
             <FormItem prop="itemCode" label="项目代码">
-              <Input type="text" v-model="datadictionaryEntity.itemCode"></Input>
+              <Input type="text" placeholder="请输入" v-model="datadictionaryEntity.itemCode"></Input>
             </FormItem>
           </Col>
         </Row>
         <Row class="row-line40">
           <Col span="24">
             <FormItem prop="itemName" label="项目名称">
-              <Input type="text" v-model="datadictionaryEntity.itemName"></Input>
+              <Input type="text" placeholder="请输入" v-model="datadictionaryEntity.itemName"></Input>
+            </FormItem>
+          </Col>
+        </Row>
+      </Form>
+    </Modal>
+    <Modal
+      v-model="alterDataDictionarybox"
+      @on-ok="modifyDataDictionary"
+      @on-cancel="closealterDataDictionary"
+      ok-text="保存"
+      cancel-text="取消"
+      title="修改数据字典项">
+      <Form ref="alterdatadictionaryEntity" :model="alterdatadictionaryEntity" :label-width="80">
+        <Row class="row-line40">
+          <Col span="24">
+            <FormItem prop="category" label="类目代码">
+              <Input type="text" v-model="alterdatadictionaryEntity.category"></Input>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row class="row-line40">
+          <Col span="24">
+            <FormItem prop="categoryDesc" label="类目名称">
+              <Input type="text" v-model="alterdatadictionaryEntity.categoryDesc"></Input>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row class="row-line40">
+          <Col span="24">
+            <FormItem prop="itemCode" label="项目代码">
+              <Input type="text" v-model="alterdatadictionaryEntity.itemCode"></Input>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row class="row-line40">
+          <Col span="24">
+            <FormItem prop="itemName" label="项目名称">
+              <Input type="text" v-model="alterdatadictionaryEntity.itemName"></Input>
             </FormItem>
           </Col>
         </Row>
@@ -94,6 +132,7 @@ export default {
     return {
       spinShow: true,
       addDataDictionary: false,
+      alterDataDictionarybox: false,
       searchinfo: {
         category: '',
         categoryDesc: '',
@@ -102,17 +141,17 @@ export default {
       },
       columns: [
         {
-          title: '类目名称',
-          key: 'categoryDesc'
-        }, {
           title: '类目代码',
           key: 'category'
         }, {
-          title: '项目名称',
-          key: 'itemName'
+          title: '类目名称',
+          key: 'categoryDesc'
         }, {
           title: '项目代码',
           key: 'itemCode'
+        }, {
+          title: '项目名称',
+          key: 'itemName'
         }, {
           title: '操作',
           key: 'action',
@@ -130,10 +169,15 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.show(params.id)
+                    this.alterDataDictionarybox = true
+                    this.alterdatadictionaryEntity.id = params.row.id
+                    this.alterdatadictionaryEntity.category = params.row.category
+                    this.alterdatadictionaryEntity.categoryDesc = params.row.categoryDesc
+                    this.alterdatadictionaryEntity.itemCode = params.row.itemCode
+                    this.alterdatadictionaryEntity.itemName = params.row.itemName
                   }
                 }
-              }, 'View'),
+              }, '编辑'),
               h('Button', {
                 props: {
                   type: 'error',
@@ -141,10 +185,10 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.remove(params.id)
+                    this.removeDataDictionary(params.row.id)
                   }
                 }
-              }, 'Delete')
+              }, '删除')
             ])
           }
         }
@@ -154,6 +198,18 @@ export default {
         body: {}
       },
       datadictionaryEntity: {
+        category: null,
+        categoryDesc: null,
+        itemCode: null,
+        itemName: null,
+        parentId: null,
+        status: null
+      },
+      delId: {
+        id: null
+      },
+      alterdatadictionaryEntity: {
+        id: null,
         category: null,
         categoryDesc: null,
         itemCode: null,
@@ -171,7 +227,7 @@ export default {
       this.$http.post('/api/datadictionary/getDataDictionaryList', this.searchinfo, this.ss).then(response => {
         this.datadictionaryinfo = response.body.info
       }, response => {
-        console.info(response.body)
+        // console.info(response.body)
       })
       this.spinShow = false
     },
@@ -181,14 +237,20 @@ export default {
     saveDataDictionary () {
       this.spinShow = true
       this.$http.post('/api/datadictionary/addDataDictionary', this.datadictionaryEntity, this.ss).then(response => {
-        console.info(response)
-      }, response => {
-        console.info(response)
+        // console.info(response)
         if (response.ok) {
           this.queryDataDictionary()
-          for (var entity in this.datadictionaryEntity) {
-            this.datadictionaryEntity[entity] = null
-          }
+          // this.datadictionaryEntity.forEach((K) => {
+          //   this.datadictionaryEntity[K] = null
+          // })
+          this.$Message.info('新增成功')
+        } else {
+          this.$Message.info('新增失败')
+        }
+      }, response => {
+        // console.info(response)
+        if (response.ok) {
+          this.queryDataDictionary()
           // this.datadictionaryEntity.forEach((K) => {
           //   this.datadictionaryEntity[K] = null
           // })
@@ -201,14 +263,62 @@ export default {
     },
     closeAddDataDictionary () {
       this.$Message.info('取消新增')
+    },
+    removeDataDictionary (id) {
+      this.spinShow = true
+      this.delId.id = id
+      this.$http.post('/api/datadictionary/removeDataDictionaryById', this.delId, this.ss).then(response => {
+        if (response.ok) {
+          this.queryDataDictionary()
+          this.$Message.info('删除成功')
+        } else {
+          this.$Message.info('删除失败')
+        }
+      }, response => {
+        if (response.ok) {
+          this.queryDataDictionary()
+          this.$Message.info('删除成功')
+        } else {
+          this.$Message.info('删除失败')
+        }
+      })
+      this.spinShow = false
+      // console.log(this.spinShow)
+    },
+    modifyDataDictionary () {
+      this.spinShow = true
+      // console.info(this.alterdatadictionaryEntity)
+      this.$http.post('/api/datadictionary/alterDataDictionaryById', this.alterdatadictionaryEntity, this.ss).then(response => {
+        if (response.ok) {
+          this.queryDataDictionary()
+          // this.datadictionaryEntity.forEach((K) => {
+          //   this.datadictionaryEntity[K] = null
+          // })
+          this.$Message.info('编辑成功')
+        } else {
+          this.$Message.info('编辑失败')
+        }
+        // console.info(response)
+      }, response => {
+        // console.info(response)
+        if (response.ok) {
+          this.queryDataDictionary()
+          // this.datadictionaryEntity.forEach((K) => {
+          //   this.datadictionaryEntity[K] = null
+          // })
+          this.$Message.info('编辑成功')
+        } else {
+          this.$Message.info('编辑失败')
+        }
+      })
+      this.spinShow = false
+    },
+    closealterDataDictionary () {
+      this.$Message.info('取消编辑')
     }
   },
   mounted: function () {
-    this.$http.post('/api/datadictionary/getDataDictionaryList', {}, this.ss).then(response => {
-      this.datadictionaryinfo = response.body
-    }, response => {
-      console.info(response.body)
-    })
+    this.queryDataDictionary()
     this.spinShow = false
     // this.http.post('http://127.0.0.1:8080/datadictionary/getDataDictionaryList', {}, this.ss)
     // console.info(httppost())
@@ -217,7 +327,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .searchBox{
   /*border-bottom: 1px #dddee1 solid;*/
