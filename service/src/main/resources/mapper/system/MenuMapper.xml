@@ -31,7 +31,7 @@
         FROM resources
         WHERE isDeleted = 0
         <if test="id != null and id != ''">
-            AND id = #{id}
+            AND id != #{id}
         </if>
         <if test="path != null and path != ''">
             AND path = #{path}
