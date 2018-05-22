@@ -1,6 +1,7 @@
 package com.yz.crm.service.impl.system;
 
 import com.yz.crm.common.entity.user.Resources;
+import com.yz.crm.common.utils.ValiDataUtils;
 import com.yz.crm.service.mapper.system.MenuMapper;
 import com.yz.crm.service.service.system.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,12 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insertResources(Resources param) throws Exception {
-        Integer count = menuMapper.selectResourcesCountByPath(param);
+        Integer count;
+        if(ValiDataUtils.isNotNull(param.getPath())){
+            count = menuMapper.selectResourcesCountByPath(param);
+        }else {
+            count = 0;
+        }
         if(count > 0){
             throw new Exception("资源已存在");
         }
@@ -51,7 +57,12 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateResourcesById(Resources param) throws Exception {
-        Integer count = menuMapper.selectResourcesCountByPath(param);
+        Integer count;
+        if(ValiDataUtils.isNotNull(param.getPath())){
+            count = menuMapper.selectResourcesCountByPath(param);
+        }else {
+            count = 0;
+        }
         if(count > 0){
             throw new Exception("资源已存在");
         }

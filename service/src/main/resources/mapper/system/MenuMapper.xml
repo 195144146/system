@@ -50,8 +50,8 @@
           name = #{name},
           path = #{path},
           type = #{type},
-          sequence = #{sequence}
-          modifiedBy = #{modifiedBy}
+          sequence = #{sequence},
+          modifiedBy = #{modifiedBy},
           modifiedOn = now()
         WHERE id = #{id}
     </update>
