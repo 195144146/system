@@ -57,6 +57,9 @@
     </update>
 
     <update id="deleteResourcesById" parameterType="com.yz.crm.common.entity.user.Resources">
-        DELETE resources WHERE id = #{id}
+        UPDATE resources
+        SET
+          isDeleted = 1
+        WHERE id = #{id}
     </update>
 </mapper>
