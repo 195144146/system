@@ -4,7 +4,7 @@
       <Row style="position: inherit;height: 100%;">
         <Col span="4" style="position: inherit;height: 100%;">
           <div style="border: 1px solid #dddee1; margin-right: 5px; position: inherit; height: 100%">
-            <div style="font-size: 16px; line-height: 40px;height: 40px; background: #f5f7f9; text-align: center;"><span>资源管理</span></div>
+            <div style="font-size: 20px; line-height: 40px;height: 40px; background: #f5f7f9; text-align: center;"><span>资源管理</span></div>
             <Tree :data="menuList" style="text-align: left; padding-left: 10px; padding-top: 10px;" @on-select-change="selectTree"></Tree>
           </div>
         </Col>
@@ -47,11 +47,10 @@
             </Row>
             <Row>
               <Col span="24" style="text-align: center; line-height: 40px;">
-                <Button type="success">新增</Button>
-                <Button type="warning">修改</Button>
-                <Button type="error">删除</Button>
+                <Button type="success" @click ="resouDataDictionary('resource')">新增</Button>
+                <Button type="warning" @click ="warnDataDictionary('resource')">修改</Button>
+                <Button type="error" @click ="errDataDictionary('resource')">删除</Button>
               </Col>
-
             </Row>
           </div>
         </Col>
@@ -78,7 +77,8 @@ export default {
       menuList: [{
         id: 0,
         title: '资源管理',
-        children: []
+        children: [],
+        type: 1
       }],
       resourceType: [],
       resource: {
@@ -92,6 +92,7 @@ export default {
     }
   },
   methods: {
+    // 数据渲染
     queryDataDictionary () {
       this.$http.post('/api/datadictionary/getDataDictionaryList', {category: 'resourcesType'}).then(response => {
         response.body.info.forEach(entity => {
@@ -99,13 +100,14 @@ export default {
           entity.label = entity.itemName
         })
         this.resourceType = response.body.info
-        console.info(response.body.info)
+        console.info(response.body.info)// 资源详情
       }, response => {
         console.info(response.body)
       })
     },
     replaceResources (resources) {
       resources.title = resources.name
+      console.info(resources.title)// 子节点的title
       resources.children.forEach(resource => {
         resource = this.replaceResources(resource)
       })
@@ -114,23 +116,77 @@ export default {
     },
     queryMenuList () {
       this.$http.post('/api/menu/getResourcesTree', {}).then(response => {
-        console.info(response.body.info)
+        console.info(response.body.info) // 资源管理下的子节点
         response.body.info.forEach(resources => {
           resources = this.replaceResources(resources)
         })
         this.menuList[0].children = response.body.info
       }, response => {
-        console.info(response.body)
+        console.info(response.body) // 权限管理
       })
     },
     selectTree (node) {
       console.info(node)
       this.resource.name = node[0].name
-      this.resource.path = node[0].path
+      // this.resource.path = node[0].path
       this.resource.type = node[0].type.toString()
       this.resource.parentId = node[0].parentId
+      this.resource.id = node[0].id
       this.resource.sequence = node[0].sequence
-      console.info(this.resource.type)
+      console.log(this.resource.type)
+    },
+    // 修改
+    warnDataDictionary () {
+      console.info(this.alterresource)
+      // this.resource.parentId = this.resource.id
+      // this.resource.id = null
+      this.$http.post('/api/menu/alterResourceId', this.resource).then(response => {
+        if (response.ok) {
+          this.queryMenuList()
+          this.$Message.info('编辑成功')
+        } else {
+          this.$Message.info('编辑失败')
+        }
+      })
+      this.queryMenuList()
+      this.restResource()
+    },
+    // 新增
+    resouDataDictionary () {
+      this.resource.parentId = this.resource.id
+      console.info(this.resource.id)
+      // this.resource.id = null
+      this.$http.post('/api/menu/addResource', this.resource).then(response => {
+        if (response.ok) {
+          this.queryMenuList()
+          this.$Message.info('新增成功')
+        } else {
+          this.$Message.info('新增失败')
+        }
+      })
+      this.queryMenuList()
+      this.restResource()
+    },
+    restResource () {
+      this.resource.id = null
+      this.resource.name = null
+      this.resource.path = null
+      this.resource.type = null
+      this.resource.parentId = null
+      this.resource.sequence = null
+    },
+    // 删除
+    errDataDictionary () {
+      this.$http.post('/api/menu/removeResourceById', this.resource).then(response => {
+        if (response.ok) {
+          this.queryMenuList()
+          this.$Message.info('删除成功')
+        } else {
+          this.$Message.info('删除失败')
+        }
+      })
+      this.queryMenuList()
+      this.restResource()
     }
   },
   mounted: function () {

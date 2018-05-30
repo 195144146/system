@@ -77,25 +77,25 @@
       </Form>
     </Modal>
     <Layout class="searchBox">
-      <Form ref="searchinfo" :model="searchinfo" :label-width="60">
+      <Form ref="searchinfo" :model="searchinfo" :label-width="80">
         <Row :gutter="16" type="flex" justify="center" align="middle" class="row-line">
           <Col span="4">
-            <FormItem prop="category" label="类目代码">
+            <FormItem prop="category" label="类目代码：">
               <Input type="text" v-model="searchinfo.category"></Input>
             </FormItem>
           </Col>
           <Col span="4">
-            <FormItem prop="categoryDesc" label="类目名称">
+            <FormItem prop="categoryDesc" label="类目名称：">
               <Input type="text" v-model="searchinfo.categoryDesc"></Input>
             </FormItem>
           </Col>
           <Col span="4">
-            <FormItem prop="itemCode" label="项目代码">
+            <FormItem prop="itemCode" label="项目代码：">
               <Input type="text" v-model="searchinfo.itemCode"></Input>
             </FormItem>
           </Col>
           <Col span="4">
-            <FormItem prop="itemName" label="项目名称">
+            <FormItem prop="itemName" label="项目名称：">
               <Input type="text" v-model="searchinfo.itemName"></Input>
             </FormItem>
           </Col>
@@ -267,6 +267,7 @@ export default {
     removeDataDictionary (id) {
       this.spinShow = true
       this.delId.id = id
+      console.info(this.delId.id)
       this.$http.post('/api/datadictionary/removeDataDictionaryById', this.delId, this.ss).then(response => {
         if (response.ok) {
           this.queryDataDictionary()
@@ -303,9 +304,6 @@ export default {
         // console.info(response)
         if (response.ok) {
           this.queryDataDictionary()
-          // this.datadictionaryEntity.forEach((K) => {
-          //   this.datadictionaryEntity[K] = null
-          // })
           this.$Message.info('编辑成功')
         } else {
           this.$Message.info('编辑失败')
