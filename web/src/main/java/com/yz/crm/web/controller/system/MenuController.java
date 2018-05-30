@@ -5,6 +5,7 @@ import com.yz.crm.web.service.client.system.IMenuService;
 import com.yz.crm.web.utils.ReturnResponseEntityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ import java.util.List;
  * @description: 菜单Controller
  **/
 @RestController
-@RequestMapping("/menu")
+@RequestMapping(value = "/menu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8;")
 public class MenuController {
 
     @Autowired
@@ -42,11 +43,58 @@ public class MenuController {
      * 获取资源树
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/getResourcesTree", produces = "application/json;charset=UTF-8;")
+    @RequestMapping("/getResourcesTree")
     public ResponseEntity getResourcesTree(){
         try {
             List<Resources> itemCodeList = menuService.selectResourcesTree(0);
             return ReturnResponseEntityUtil.success(itemCodeList);
+        } catch (Exception e) {
+            return ReturnResponseEntityUtil.failure(e);
+        }
+    }
+
+    /**
+     * 新增资源项
+     * 该方法会先查询需要新增的地址是否在数据库中已经存在，如果不存在则添加，如果存在则不添加并且抛出异常。
+     * @param param
+     * @return
+     */
+    @RequestMapping("/addResource")
+    public ResponseEntity addResource(@RequestBody Resources param){
+        try {
+            menuService.insertResources(param);
+            return ReturnResponseEntityUtil.success();
+        } catch (Exception e) {
+            return ReturnResponseEntityUtil.failure(e);
+        }
+    }
+
+    /**
+     * 通过id更新数据字典项
+     * 该方法会先查询需要新增的地址是否在数据库中已经存在，如果不存在则添加，如果存在则不添加并且抛出异常。
+     * @param param
+     * @return
+     */
+    @RequestMapping("/alterResourceId")
+    public ResponseEntity alterResourceId(@RequestBody Resources param){
+        try {
+            menuService.updateResourcesById(param);
+            return ReturnResponseEntityUtil.success();
+        } catch (Exception e) {
+            return ReturnResponseEntityUtil.failure(e);
+        }
+    }
+
+    /**
+     * 通过id删除资源项
+     * @param param
+     * @return
+     */
+    @RequestMapping("/removeResourceById")
+    public ResponseEntity removeResourceById(@RequestBody Resources param){
+        try {
+            menuService.deleteResourcesById(param);
+            return ReturnResponseEntityUtil.success();
         } catch (Exception e) {
             return ReturnResponseEntityUtil.failure(e);
         }

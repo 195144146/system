@@ -41,11 +41,21 @@ public class DataDictionaryController {
         dataDictionaryServiceImpl.insertDataDictionary(param);
     }
 
+    /**
+     * 通过id更新数据字典项
+     * @param param
+     * @throws Exception
+     */
     @RequestMapping("/updateDataDictionaryById")
     public void updateDataDictionaryById(@RequestBody ItemCode param) throws Exception {
         dataDictionaryServiceImpl.updateDataDictionaryById(param);
     }
 
+    /**
+     * 通过id删除数据字典项
+     * @param param
+     * @throws Exception
+     */
     @RequestMapping("/deleteDataDictionaryById")
     public void deleteDataDictionaryById(@RequestBody ItemCode param) throws Exception {
         dataDictionaryServiceImpl.deleteDataDictionaryById(param);

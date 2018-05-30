@@ -23,4 +23,24 @@ public interface IMenuService {
     @RequestMapping(value = "/selectResourcesTree")
     List<Resources> selectResourcesTree(Integer pid);
 
+    /**
+     * 新增资源
+     * @param param
+     */
+    @RequestMapping(value = "/insertResources")
+    void insertResources(Resources param);
+
+    /**
+     * 通过id更新资源
+     * @param param
+     */
+    @RequestMapping(value = "/updateResourcesById")
+    void updateResourcesById(Resources param);
+
+    /**
+     * 通过id删除资源
+     * @param param
+     */
+    @RequestMapping(value = "/deleteResourcesById")
+    void deleteResourcesById(Resources param);
 }

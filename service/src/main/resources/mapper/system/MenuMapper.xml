@@ -9,7 +9,6 @@
         <result column="parentId" property="parentId"></result>
         <result column="sequence" property="sequence"></result>
         <collection property="children" select="selectResourcesTree" column="id">
-
         </collection>
     </resultMap>
 
@@ -26,4 +25,41 @@
         AND parentId = #{id}
         ORDER BY sequence
     </select>
+
+    <select id="selectResourcesCountByPath" parameterType="com.yz.crm.common.entity.user.Resources" resultType="Integer">
+        SELECT COUNT(1)
+        FROM resources
+        WHERE isDeleted = 0
+        <if test="id != null and id != ''">
+            AND id != #{id}
+        </if>
+        <if test="path != null and path != ''">
+            AND path = #{path}
+        </if>
+    </select>
+
+    <insert id="insertResources" parameterType="com.yz.crm.common.entity.user.Resources">
+        INSERT INTO resources
+        (name, path, type, parentId, sequence, createdBy, createdOn, modifiedBy, modifiedOn, isDeleted) VALUES
+        (#{name},#{path},#{type},#{parentId},#{sequence},#{createdBy},now(),#{createdBy},now(),0)
+    </insert>
+
+    <update id="updateResourcesById" parameterType="com.yz.crm.common.entity.user.Resources">
+        UPDATE resources
+        SET
+          name = #{name},
+          path = #{path},
+          type = #{type},
+          sequence = #{sequence},
+          modifiedBy = #{modifiedBy},
+          modifiedOn = now()
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteResourcesById" parameterType="com.yz.crm.common.entity.user.Resources">
+        UPDATE resources
+        SET
+          isDeleted = 1
+        WHERE id = #{id}
+    </update>
 </mapper>
