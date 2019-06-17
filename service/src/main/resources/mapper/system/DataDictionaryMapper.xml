@@ -2,16 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yz.crm.service.mapper.system.DataDictionaryMapper">
 
-    <select id="selectDataDictionaryList" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode" resultType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
+    <select id="selectDataDictionaryList" parameterType="com.yz.crm.common.entity.system.SysDataDictionary" resultType="com.yz.crm.common.entity.system.SysDataDictionary">
       SELECT
         id,
         category,
-        categoryDesc,
-        itemCode,
-        itemName,
-        parentId,
-        status
-      FROM item_code
+        code,
+        interpretation,
+        special_1,
+        special_2,
+        special_3,
+        final_Flag,
+        remark,
+        sequence,
+        status,
+        isDeleted,
+        createdBy,
+        createdOn,
+        modifiedBy,
+        modifiedOn
+      FROM sys_data_dictionary
       WHERE isDeleted = 0
         <if test="id != null">
           AND id = #{id}
@@ -19,45 +28,47 @@
         <if test="category != null">
           AND category LIKE concat('%',#{category},'%')
         </if>
-        <if test="categoryDesc != null">
-          AND categoryDesc LIKE concat('%',#{categoryDesc},'%')
+        <if test="code != null">
+          AND code LIKE concat('%',#{code},'%')
         </if>
-        <if test="itemCode != null">
-            AND itemCode LIKE concat('%',#{itemCode},'%')
-        </if>
-        <if test="itemName != null">
-            AND itemName LIKE concat('%',#{itemName},'%')
+        <if test="interpretation != null">
+          AND (
+            interpretation LIKE concat('%',#{interpretation},'%')
+            or special_1 LIKE concat('%',#{interpretation},'%')
+            or special_2 LIKE concat('%',#{interpretation},'%')
+            or special_3 LIKE concat('%',#{interpretation},'%')
+            )
         </if>
     </select>
 
-    <select id="selectDataDictionaryCount" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode" resultType="Integer">
+    <select id="selectDataDictionaryCount" parameterType="com.yz.crm.common.entity.system.SysDataDictionary" resultType="Integer">
         SELECT count(1)
-        FROM item_code
+        FROM sys_data_dictionary
         WHERE isDeleted = 0
         AND category LIKE concat('%',#{category},'%')
-        AND itemCode LIKE concat('%',#{itemCode},'%')
+        AND code LIKE concat('%',#{code},'%')
     </select>
 
-    <insert id="insertDataDictionary" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
-        INSERT INTO item_code
-        (category, categoryDesc, itemCode, itemName, parentId, createdBy, createdOn, modifiedBy, modifiedOn)
+    <insert id="insertDataDictionary" parameterType="com.yz.crm.common.entity.system.SysDataDictionary">
+        INSERT INTO sys_data_dictionary
+        (Category, Code, interpretation, Special_1, Special_2, Special_3, Final_Flag, Remark, Sequence, Status, IsDeleted, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn)
         VALUES
-        (#{category}, #{categoryDesc}, #{itemCode}, #{itemName}, #{parentId}, #{createdBy}, now() , #{createdBy}, now())
+        (#{category}, #{code}, #{interpretation}, #{special_1}, #{special_2}, #{special_3}, #{finalFlag}, #{remark}, #{sequence}, #{status}, 0, #{createdBy}, now() , #{createdBy}, now())
     </insert>
 
-    <update id="updateDataDictionaryById" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
-        UPDATE item_code
+    <update id="updateDataDictionaryById" parameterType="com.yz.crm.common.entity.system.SysDataDictionary">
+        UPDATE sys_data_dictionary
         SET modifiedBy = #{modifiedBy},
           modifiedOn = now(),
           category = #{category},
-          categoryDesc = #{categoryDesc},
-          itemCode = #{itemCode},
-          itemName = #{itemName}
+          remark = #{remark},
+          code = #{code},
+          interpretation = #{interpretation}
         WHERE id = #{id}
     </update>
 
-    <update id="deleteDataDictionaryById" parameterType="com.yz.crm.common.entity.system.datadictionary.ItemCode">
-        UPDATE item_code
+    <update id="deleteDataDictionaryById" parameterType="com.yz.crm.common.entity.system.SysDataDictionary">
+        UPDATE sys_data_dictionary
         SET
           isDeleted = 1,
           modifiedBy = #{modifiedBy},

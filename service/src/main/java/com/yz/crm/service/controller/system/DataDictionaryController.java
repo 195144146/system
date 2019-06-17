@@ -1,6 +1,6 @@
 package com.yz.crm.service.controller.system;
 
-import com.yz.crm.common.entity.system.datadictionary.ItemCode;
+import com.yz.crm.common.entity.system.SysDataDictionary;
 import com.yz.crm.service.service.system.IDataDictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +28,7 @@ public class DataDictionaryController {
      * @return
      */
     @RequestMapping("/selectDataDictionaryList")
-    public List<ItemCode> selectDataDictionaryList(@RequestBody ItemCode param){
+    public List<SysDataDictionary> selectDataDictionaryList(@RequestBody SysDataDictionary param){
         return dataDictionaryServiceImpl.selectDataDictionaryList(param);
     }
 
@@ -37,7 +37,7 @@ public class DataDictionaryController {
      * 该方法会先查询需要新增的项是否在数据库中已经存在如果存在则添加如果不存在则不添加并且抛出异常
      */
     @RequestMapping("/insertDataDictionary")
-    public void insertDataDictionary(@RequestBody ItemCode param) throws Exception {
+    public void insertDataDictionary(@RequestBody SysDataDictionary param) throws Exception {
         dataDictionaryServiceImpl.insertDataDictionary(param);
     }
 
@@ -47,7 +47,7 @@ public class DataDictionaryController {
      * @throws Exception
      */
     @RequestMapping("/updateDataDictionaryById")
-    public void updateDataDictionaryById(@RequestBody ItemCode param) throws Exception {
+    public void updateDataDictionaryById(@RequestBody SysDataDictionary param) throws Exception {
         dataDictionaryServiceImpl.updateDataDictionaryById(param);
     }
 
@@ -57,9 +57,8 @@ public class DataDictionaryController {
      * @throws Exception
      */
     @RequestMapping("/deleteDataDictionaryById")
-    public void deleteDataDictionaryById(@RequestBody ItemCode param) throws Exception {
+    public void deleteDataDictionaryById(@RequestBody SysDataDictionary param) throws Exception {
         dataDictionaryServiceImpl.deleteDataDictionaryById(param);
     }
-
 
 }

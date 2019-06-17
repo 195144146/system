@@ -1,6 +1,6 @@
 package com.yz.crm.service.impl.system;
 
-import com.yz.crm.common.entity.system.datadictionary.ItemCode;
+import com.yz.crm.common.entity.system.SysDataDictionary;
 import com.yz.crm.service.mapper.system.DataDictionaryMapper;
 import com.yz.crm.service.service.system.IDataDictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class DataDictionaryServiceImpl implements IDataDictionaryService {
      * @return
      */
     @Override
-    public List<ItemCode> selectDataDictionaryList(ItemCode param) {
+    public List<SysDataDictionary> selectDataDictionaryList(SysDataDictionary param) {
         return dataDictionaryMapper.selectDataDictionaryList(param);
     }
 
@@ -35,7 +35,7 @@ public class DataDictionaryServiceImpl implements IDataDictionaryService {
      * @param param
      */
     @Override
-    public void insertDataDictionary(ItemCode param) throws Exception {
+    public void insertDataDictionary(SysDataDictionary param) throws Exception {
         Integer count = dataDictionaryMapper.selectDataDictionaryCount(param);
         if (!count.equals(0)){
             throw new Exception("该项目已存在");
@@ -48,7 +48,7 @@ public class DataDictionaryServiceImpl implements IDataDictionaryService {
      * @param param
      */
     @Override
-    public void updateDataDictionaryById(ItemCode param) throws Exception {
+    public void updateDataDictionaryById(SysDataDictionary param) throws Exception {
         if(param.getId() == null){
             throw new Exception("请选择更改项");
         }
@@ -60,7 +60,7 @@ public class DataDictionaryServiceImpl implements IDataDictionaryService {
      * @param param
      */
     @Override
-    public void deleteDataDictionaryById(ItemCode param) throws Exception {
+    public void deleteDataDictionaryById(SysDataDictionary param) throws Exception {
         if(param.getId() == null){
             throw new Exception("请选择删除项");
         }

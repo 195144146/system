@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.crm.service.mapper.system.ResourceMapper">
+
+    <resultMap id="resource" type="com.yz.crm.common.entity.system.SysResources">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="path" property="path"></result>
+        <result column="type" property="type"></result>
+        <result column="parentId" property="parentId"></result>
+        <result column="sequence" property="sequence"></result>
+        <result column="code" property="code"></result>
+        <collection property="children" select="selectResourcesTree" column="id">
+        </collection>
+    </resultMap>
+
+    <select id="selectResourcesTree" resultMap="resource">
+        SELECT
+          id,
+          name,
+          code,
+          path,
+          type,
+          parentId,
+          sequence
+        FROM sys_resource
+        WHERE isDeleted = 0
+        AND parentId = #{id}
+        ORDER BY sequence
+    </select>
+
+    <select id="selectResourcesCountByPath" parameterType="com.yz.crm.common.entity.system.SysResources" resultType="Integer">
+        SELECT COUNT(1)
+        FROM sys_resource
+        WHERE isDeleted = 0
+        <if test="id != null and id != ''">
+            AND id != #{id}
+        </if>
+        <if test="path != null and path != ''">
+            AND path = #{path}
+        </if>
+        <if test="code != null and code != ''">
+            and code = #{code}
+        </if>
+    </select>
+
+    <insert id="insertResources" parameterType="com.yz.crm.common.entity.system.SysResources">
+        INSERT INTO sys_resource
+        (name,Code, path, type, parentId, sequence, createdBy, createdOn, modifiedBy, modifiedOn, isDeleted) VALUES
+        (#{name}, #{code},#{path},#{type},#{parentId},#{sequence},#{createdBy},now(),#{createdBy},now(),0)
+    </insert>
+
+    <update id="updateResourcesById" parameterType="com.yz.crm.common.entity.system.SysResources">
+        UPDATE sys_resource
+        SET
+          name = #{name},
+          Code = #{code},
+          path = #{path},
+          type = #{type},
+          sequence = #{sequence},
+          modifiedBy = #{modifiedBy},
+          modifiedOn = now()
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteResourcesById" parameterType="com.yz.crm.common.entity.system.SysResources">
+        UPDATE sys_resource
+        SET
+          isDeleted = 1
+        WHERE id = #{id}
+    </update>
+
+    <select id="getPublicInterface" resultType="String">
+        select
+          Path
+        from sys_resource
+        where
+          Id in (
+            select
+              ResourcesId
+            from sys_role_resource
+            where
+              RoleId in (
+                select
+                  Id
+                from sys_role
+                where
+                  type = 0
+              )
+          )
+    </select>
+</mapper>

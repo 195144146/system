@@ -1,6 +1,6 @@
 package com.yz.crm.service.service.system;
 
-import com.yz.crm.common.entity.system.datadictionary.ItemCode;
+import com.yz.crm.common.entity.system.SysDataDictionary;
 import java.util.List;
 
 /**
@@ -16,23 +16,23 @@ public interface IDataDictionaryService {
      * @param param
      * @return
      */
-    List<ItemCode> selectDataDictionaryList(ItemCode param);
+    List<SysDataDictionary> selectDataDictionaryList(SysDataDictionary param);
 
     /**
      * 新增数据字典项
      */
-    void insertDataDictionary(ItemCode param) throws Exception;
+    void insertDataDictionary(SysDataDictionary param) throws Exception;
 
     /**
      * 更新数据字典项
      * @param param
      */
-    void updateDataDictionaryById(ItemCode param) throws Exception;
+    void updateDataDictionaryById(SysDataDictionary param) throws Exception;
 
     /**
      * 删除数据字典项
      * @param param
      */
-    void deleteDataDictionaryById(ItemCode param) throws Exception;
+    void deleteDataDictionaryById(SysDataDictionary param) throws Exception;
 
 }

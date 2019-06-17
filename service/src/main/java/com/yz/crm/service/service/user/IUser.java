@@ -1,6 +1,6 @@
 package com.yz.crm.service.service.user;
 
-import com.yz.crm.common.entity.user.User;
+import com.yz.crm.common.entity.system.SysUser;
 import java.util.List;
 
 public interface IUser {
@@ -9,12 +9,12 @@ public interface IUser {
      * @param param
      * @return
      */
-    List<User> saveUser(List<User> param);
+    List<SysUser> saveUser(List<SysUser> param);
 
     /**
      * 查询用户信息
      * @param param
      * @return
      */
-    List<User> selectUser(User param);
+    List<SysUser> selectUser(SysUser param);
 }

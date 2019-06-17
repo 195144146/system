@@ -1,8 +1,9 @@
 package com.yz.crm.web.controller.system;
 
-import com.yz.crm.common.entity.system.datadictionary.ItemCode;
+import com.yz.crm.common.entity.system.SysDataDictionary;
 import com.yz.crm.web.service.client.system.IDataDictionaryService;
 import com.yz.crm.web.utils.ReturnResponseEntityUtil;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,10 +31,12 @@ public class DataDictionaryController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/getDataDictionaryList", produces = "application/json;charset=UTF-8;")
-    public ResponseEntity selectDataDictionaryList(@RequestBody ItemCode param){
+    public ResponseEntity selectDataDictionaryList(@RequestBody SysDataDictionary param){
         try {
-            List<ItemCode> itemCodeList = dataDictionaryService.selectDataDictionaryList(param);
+            List<SysDataDictionary> itemCodeList = dataDictionaryService.selectDataDictionaryList(param);
             return ReturnResponseEntityUtil.success(itemCodeList);
+        }catch (FeignException e){
+            return ReturnResponseEntityUtil.failure("查询失败！");
         } catch (Exception e) {
             return ReturnResponseEntityUtil.failure(e);
         }
@@ -46,7 +49,7 @@ public class DataDictionaryController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/addDataDictionary", produces = "application/json;charset=UTF-8;")
-    public ResponseEntity insertDataDictionary(@RequestBody ItemCode param){
+    public ResponseEntity insertDataDictionary(@RequestBody SysDataDictionary param){
         try {
             dataDictionaryService.insertDataDictionary(param);
             return ReturnResponseEntityUtil.success();
@@ -61,7 +64,7 @@ public class DataDictionaryController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/alterDataDictionaryById", produces = "application/json;charset=UTF-8;")
-    public ResponseEntity updateDataDictionaryById(@RequestBody ItemCode param){
+    public ResponseEntity updateDataDictionaryById(@RequestBody SysDataDictionary param){
         try {
             dataDictionaryService.updateDataDictionaryById(param);
             return ReturnResponseEntityUtil.success();
@@ -76,7 +79,7 @@ public class DataDictionaryController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, value = "/removeDataDictionaryById", produces = "application/json;charset=UTF-8;")
-    public ResponseEntity removeDataDictionaryById(@RequestBody ItemCode param){
+    public ResponseEntity removeDataDictionaryById(@RequestBody SysDataDictionary param){
         try {
             dataDictionaryService.deleteDataDictionaryById(param);
             return ReturnResponseEntityUtil.success();

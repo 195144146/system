@@ -1,6 +1,6 @@
 package com.yz.crm.web.service.client.system;
 
-import com.yz.crm.common.entity.system.datadictionary.ItemCode;
+import com.yz.crm.common.entity.system.SysDataDictionary;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,6 @@ import java.util.List;
  * @description: 数据字典服务
  **/
 @FeignClient("service")
-@RequestMapping(value = "/datadictionary",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
 public interface IDataDictionaryService {
 
     /**
@@ -21,28 +20,28 @@ public interface IDataDictionaryService {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/selectDataDictionaryList")
-    List<ItemCode> selectDataDictionaryList(@RequestBody ItemCode param);
+    @RequestMapping(value = "/datadictionary/selectDataDictionaryList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    List<SysDataDictionary> selectDataDictionaryList(@RequestBody SysDataDictionary param);
 
     /**
      * 新增数据字典项
      * @param param
      */
-    @RequestMapping(value = "/insertDataDictionary")
-    void insertDataDictionary(@RequestBody ItemCode param);
+    @RequestMapping(value = "/datadictionary/insertDataDictionary", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    void insertDataDictionary(@RequestBody SysDataDictionary param);
 
     /**
      * 通过id更新数据字典项
      * @param param
      */
-    @RequestMapping(value = "/updateDataDictionaryById")
-    void updateDataDictionaryById(@RequestBody ItemCode param);
+    @RequestMapping(value = "/datadictionary/updateDataDictionaryById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    void updateDataDictionaryById(@RequestBody SysDataDictionary param);
 
     /**
      * 通过id删除数据字典项
      * @param param
      */
-    @RequestMapping(value = "/deleteDataDictionaryById")
-    void deleteDataDictionaryById(@RequestBody ItemCode param);
+    @RequestMapping(value = "/datadictionary/deleteDataDictionaryById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    void deleteDataDictionaryById(@RequestBody SysDataDictionary param);
 
 }

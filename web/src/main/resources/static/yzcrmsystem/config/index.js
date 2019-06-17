@@ -10,10 +10,14 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    // 接口地址
     proxyTable: {
       '/api': {
         target: 'http://127.0.0.1:8080',
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api':''
+        }
       }
     },
 
@@ -37,12 +41,13 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
-    devtool: 'cheap-module-eval-source-map',
-
+    // devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-source-map',
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
-    cacheBusting: true,
+    // cacheBusting: true,
+    cacheBusting: false,
 
     cssSourceMap: true
   },
@@ -69,16 +74,6 @@ module.exports = {
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
-
-    proxyTable: {
-      '/datadictionary': {
-        target: 'http://127.0.0.1:8080',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/datadictionary':''
-        }
-      }
-    },
 
     // Run the build command with an extra argument to
     // View the bundle analyzer report after build finishes:

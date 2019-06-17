@@ -1,8 +1,8 @@
 package com.yz.crm.web.utils;
 
+import com.yz.crm.common.utils.MapUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 import java.util.Map;
 
@@ -32,5 +32,9 @@ public class ReturnResponseEntityUtil {
 
     public static ResponseEntity failure(Exception e){
         return new ResponseEntity<Map<String,Object>>(MapUtils.getReturnFailureMap(e.getMessage()), HttpStatus.FAILED_DEPENDENCY);
+    }
+
+    public static ResponseEntity failure(String message){
+        return new ResponseEntity<Map<String,Object>>(MapUtils.getReturnFailureMap(message), HttpStatus.FAILED_DEPENDENCY);
     }
 }

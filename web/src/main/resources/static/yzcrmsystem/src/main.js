@@ -6,10 +6,9 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import 'iview/dist/styles/iview.css'
-import ajaxutil from './util/ajaxutil.js'
+
 Vue.use(iView)
 Vue.use(VueResource)
-Vue.use(ajaxutil)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -33,4 +32,19 @@ Vue.http.interceptors.push((request, next) => {
     console.log(response)
     return response
   })
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    if (localStorage.user_id) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next()
+  }
 })
